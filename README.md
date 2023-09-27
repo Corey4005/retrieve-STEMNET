@@ -37,7 +37,7 @@ python getstations.py
 This script performs the following tasks:
 
 1. Reads station metadata from a remote server.
-2. Fetches weather station data for each station listed in the metadata.
+2. Fetches data for each station listed in the metadata.
 3. Processes and saves the data as CSV files in a local "data" directory.
 4. Utilizes asyncio to efficiently handle multiple asynchronous requests.
 
