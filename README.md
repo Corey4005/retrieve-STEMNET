@@ -13,7 +13,7 @@ Before running the script, ensure you have the following dependencies installed:
 - requests 2.31.0
 - tqdm 4.66.1
 
-You can install these dependencies using pip by running:
+You can install all dependencies except python using pip by running:
 
 ```bash
 pip install -r requirements.txt
@@ -27,10 +27,8 @@ pip install -r requirements.txt
 4. Run the script:
 
 ```bash
-python script_name.py
+python getstations.py
 ```
-
-Replace `script_name.py` with the name of the script containing the code.
 
 ## Script Overview
 
