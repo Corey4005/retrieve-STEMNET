@@ -1,7 +1,9 @@
 # retrieve-STEMNET
 # Data Retrieval Script
 
-This Python script retrieves soil moisture station data from a remote source, processes it, and stores it as CSV files in a local directory. It uses asyncio, aiohttp, pandas, and tqdm to efficiently fetch and save the data.
+Are you a researcher in the field of environmental science, agriculture, or hydrology? Are you constantly on the lookout for efficient tools to retrieve and analyze soil moisture data?
+
+This Python script retrieves soil moisture station data from a remote source, processes it, and stores it as CSV files in a local directory. It uses asyncio, aiohttp, pandas, and tqdm to efficiently fetch and save low-cost soil moitsure data provided by the Alabama Climatology Office at the University of Alabama Huntsville.
 
 Here is the University of Alabama press [release](https://www.uah.edu/news/news/uah-builds-installs-low-cost-soil-moisture-sensors-to-examine-how-flash-droughts-impact-agriculture) describing the soil moisture program. 
 
