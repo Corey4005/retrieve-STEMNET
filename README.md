@@ -51,6 +51,7 @@ This script performs the following tasks:
 2. Fetches data for each station listed in the metadata.
 3. Processes and saves the data as CSV files in a local "data" directory.
 4. Utilizes asyncio to efficiently handle multiple asynchronous requests.
+5. Provides terminal progress bars to monitor download speeds. 
 
 ## Customization
 
