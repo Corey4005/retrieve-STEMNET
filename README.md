@@ -18,7 +18,15 @@ Before running the script, ensure you have the following dependencies installed:
 - requests 2.31.0
 - tqdm 4.66.1
 
-You can install all dependencies except python using pip by running:
+You can easily install python and all dependencies in a virtual environment using conda and pip:
+
+```bash
+conda create --name myenv python=3.9.5
+```
+
+```bash
+conda activate myenv
+```
 
 ```bash
 pip install -r requirements.txt
