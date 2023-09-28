@@ -57,9 +57,7 @@ This script performs the following tasks:
 
 You may need to customize the following parts of the script to suit your needs:
 
-- **Output Directory**: By default, data is stored in a "data" directory in the current working directory. You can change the `datadir` variable to specify a different output directory.
-
-Ensure that the remote data sources are accessible and that you have the necessary permissions to fetch data from them.
+- **Output Directory**: By default, data is stored in a "data" directory in the current working directory. You can change the `datadir` variable to specify a different output directory by updating the script. 
 
 ## Output
 
