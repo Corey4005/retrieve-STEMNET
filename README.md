@@ -63,4 +63,4 @@ You may need to customize the following parts of the script to suit your needs:
 
 The script will display progress bars using tqdm for each station being retrieved. Once the script finishes execution, all retrieved data will be stored in the specified output directory.
 
-For questions or issues, please [open an issue][(https://github.com/Corey4005/retrieve-STEMNET/issues) on the GitHub repository.
+For questions or issues, please [open an issue](https://github.com/Corey4005/retrieve-STEMNET/issues) on the GitHub repository.
