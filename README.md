@@ -63,6 +63,8 @@ You may need to customize the following parts of the script to suit your needs:
 
 ## Output
 
-The script will display progress bars using tqdm for each station being retrieved. Once the script finishes execution, all retrieved data will be stored in the specified output directory.
+The script will display progress bars using tqdm for each station being retrieved. Once the script finishes execution, all retrieved data will be stored in the ./datadir/ directory. 
+
+The script will also output a logfile in the ./logdir/stemneterror.log if there are bad server requests (404 error), or if station data could not be processed due to some exception that is thrown during processing. 
 
 For questions or issues, please [open an issue](https://github.com/Corey4005/retrieve-STEMNET/issues) on the GitHub repository.
