@@ -50,7 +50,7 @@ async def fetch_station_data(session, url, station, dir, date_start, pbar, error
 
                 else:
                     #saving to path
-                    logging.error(f'{station} pull failed due to bad date start value.')
+                    logging.error(f'{station} pull failed with bad start value in sn_meta.txt.')
             else:
                logging.error(f'{station} server status bad request code: 404')
                
@@ -61,7 +61,7 @@ async def fetch_station_data(session, url, station, dir, date_start, pbar, error
 
 async def main(station_df, url, dir):
     taskurl = url
-    logging.basicConfig(filename='logdir/example.log', encoding='utf-8', level=logging.ERROR)
+    logging.basicConfig(filename='logdir/stemneterror.log', encoding='utf-8', level=logging.ERROR)
 
     async with aiohttp.ClientSession() as session:
         errors = []
@@ -109,7 +109,7 @@ if __name__ == "__main__":
         text = response.text
         
     else:
-        message = 'Unable to retrieve station text file from https://data.alclimate.com/stemmnet/sn_meta.txt'
+        message = 'Server status 404 at https://data.alclimate.com/stemmnet/sn_meta.txt, exiting.'
         print(message)
         os._exit(1)
 
@@ -143,5 +143,6 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main(stations_df, url2, datadir))
     print('\n')
-    print(f'All Data Stored at: {datadir}')
+    print(f'Station Data Stored at: {datadir}')
+    print(f'Error Log stored at: {logdir}')
 
