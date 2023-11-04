@@ -55,12 +55,6 @@ This script performs the following tasks:
 4. Utilizes asyncio to efficiently handle multiple asynchronous requests.
 5. Provides terminal progress bars to monitor download speeds. 
 
-## Customization
-
-You may need to customize the following parts of the script to suit your needs:
-
-- **Output Directory**: By default, data is stored in a "data" directory in the current working directory. You can change the `datadir` variable to specify a different output directory by updating the script. 
-
 ## Output
 
 The script will display progress bars using tqdm for each station being retrieved. Once the script finishes execution, all retrieved data will be stored in the ./datadir/ directory. 
