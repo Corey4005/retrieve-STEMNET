@@ -51,9 +51,14 @@ This script performs the following tasks:
 
 1. Reads station metadata from a remote server.
 2. Fetches data for each station listed in the metadata.
-3. Processes and saves the data as CSV files in a local "data" directory.
+3. Processes and saves the data as CSV files in a local "data" directory (Read Script Processing below).
 4. Utilizes asyncio to efficiently handle multiple asynchronous requests.
 5. Provides terminal progress bars to monitor download speeds. 
+
+## Script Processing
+This script will make values below 900.00 mV and above 2200.00 mV NaN values. This is because values below and above this range are not representative of real soil moisture values. Sensors were tested in the lab prior to being installed causing erroneous values that are not real. 
+
+Values labled as -999.99 are also set to NaN. Sometimes clock errors in the sensors cause erroneous values to be reported. 
 
 ## Output
 
