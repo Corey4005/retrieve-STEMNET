@@ -56,7 +56,7 @@ This script performs the following tasks:
 5. Provides terminal progress bars to monitor download speeds. 
 
 ## Script Processing
-This script will clean data on the Alabama Climatology Office server. This means that values below 900.00 mV and above 2200.00 mV are set to NaN. This is because values that do not satisfy this range are assumed to not be representative of real soil moisture values. Sensors were tested in the lab prior to being installed causing erroneous values to be reported that are not real. Values labled as -999.99 are also set to NaN. Sometimes clock errors in the sensors cause erroneous values to be reported to the Alabama State Climatology office data server. 
+This script will clean data on the Alabama Climatology Office server. This means that values below 900.00 mV and above 2200.00 mV are set to NaN. This is because values that do not satisfy this range are assumed to not be representative of real soil moisture values. Sensors were tested in the lab prior to being installed causing erroneous values to be reported that are not real. Values labled as -999.99 are also set to NaN. Sometimes clock errors in the sensors cause erroneous values to be reported.
 
 ## Output
 
