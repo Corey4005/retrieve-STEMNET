@@ -9,23 +9,62 @@ import os
 from tqdm import tqdm
 import shutil
 import logging
+import numpy as np
+import datetime 
+
+def convert_timestamp(epoch):
+    epoch = int(epoch)
+    dt_object = datetime.datetime.utcfromtimestamp(epoch)
+    formatted = dt_object.strftime("%m-%d-%Y %H:%M:%S")
+    formatted_date_datetime = datetime.datetime.strptime(formatted, "%m-%d-%Y %H:%M:%S")
+    return formatted_date_datetime
 
 # Read the data into a DataFrame
 async def fetch_station_data(session, url, station, dir, date_start, pbar):
     async with session.get(url, ssl=False) as response:
         try: 
             if response.status == 200:
+                #update to show status 200
+                pbar.update(1)
+
                 #need to read csv in as bytes
                 buffer = BytesIO(await response.read())
-                df = pd.read_csv(buffer, on_bad_lines='skip')
-            
+                df = pd.read_csv(buffer, on_bad_lines='skip', dtype={'time': int, 'm0': float, 
+                                                                     'm1': float, 'm2': float, 
+                                                                     'm3': float, 'm4': float})
+
+                #getting rid of bad values 
+                df = df.replace(-999.99, np.nan)
+
                 #the index where the data should start
                 df_start = df.loc[df['time']>=date_start]
+
+                #converting timestamps
+                df['time'] = df['time'].apply(convert_timestamp)
 
                 #if the dataframe has data, this is where there are good values
                 if not df_start.index.empty: 
                     value_start = df_start.index[0]
                     df_subset = df.loc[value_start:]
+
+                    df_subset['m0'].values[df_subset['m0'].values>2200.0]=np.nan
+                    df_subset['m0'].values[df_subset['m0'].values<900.0]=np.nan
+
+                    #replace bad values 
+                    df_subset['m1'].values[df_subset['m1'].values>2200.0]=np.nan
+                    df_subset['m1'].values[df_subset['m1'].values<900.0]=np.nan
+
+                    #replace bad values 
+                    df_subset['m2'].values[df_subset['m2'].values>2200.0]=np.nan
+                    df_subset['m2'].values[df_subset['m2'].values<900.0]=np.nan
+
+                    #replace bad values 
+                    df['m3'].values[df['m3'].values>2200.0]=np.nan
+                    df['m3'].values[df['m3'].values<900.0]=np.nan
+
+                    #replace bad values 
+                    df['m4'].values[df['m4'].values>2200.0]=np.nan
+                    df['m4'].values[df['m4'].values<900.0]=np.nan
                     
                     #saving to path
                     path = dir + '/' + station + '.csv'
@@ -60,7 +99,7 @@ async def main(station_df, url, dir):
             date_start = row['install_date']
 
             if date_start != 0:
-                station_pbars[station] = tqdm(total=1, desc=f"Retrieving {station}")
+                station_pbars[station] = tqdm(total=2, desc=f"Retrieving {station}")
         
         for index, row in station_df.iterrows():
             url = taskurl + row['id'] + ".csv"
@@ -126,6 +165,6 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main(stations_df, url2, datadir))
     print('\n')
-    print(f'Station Data Stored at: {datadir}')
-    print(f'Error Log stored at: {logdir}')
+    print(f'Station data stored at: {datadir}')
+    print(f'If bar did not load, error log is stored at: {logdir}')
 
