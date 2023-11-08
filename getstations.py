@@ -74,6 +74,7 @@ async def fetch_station_data(session, url, station, dir, date_start, pbar):
                 else:
                     #saving to path
                     logging.error(f'{station} pull failed with bad start value in sn_meta.txt.')
+            
             else:
                logging.error(f'{station} server status bad request code: 404')
                
