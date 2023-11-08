@@ -10,33 +10,17 @@ from tqdm import tqdm
 import shutil
 import logging
 
-
-def remove_semicolon(value):
-    if value.endswith(';'):
-        value = int(value[:-1])
-        return value
-    else:
-        return int(value)
-
 # Read the data into a DataFrame
-async def fetch_station_data(session, url, station, dir, date_start, pbar, errorlist):
+async def fetch_station_data(session, url, station, dir, date_start, pbar):
     async with session.get(url, ssl=False) as response:
         try: 
             if response.status == 200:
                 #need to read csv in as bytes
                 buffer = BytesIO(await response.read())
                 df = pd.read_csv(buffer, on_bad_lines='skip')
-
-                #adding columns
-                df.columns = ['index', 'T0', 'T1', 'T2', 'T3', 'T4', 'Solar Voltage', 
-                            'Battery Voltage', 'Clock Voltage', 'M0', 'M1', 'M2', 
-                            'M3', 'M4', 'Time Collected']
-                
-                #removing the semicolon and returning a integer to compare to
-                lookup = df['Time Collected'].apply(remove_semicolon)
-                
+            
                 #the index where the data should start
-                df_start = lookup.loc[lookup>=date_start]
+                df_start = df.loc[df['time']>=date_start]
 
                 #if the dataframe has data, this is where there are good values
                 if not df_start.index.empty: 
@@ -64,7 +48,6 @@ async def main(station_df, url, dir):
     logging.basicConfig(filename='logdir/stemneterror.log', encoding='utf-8', level=logging.ERROR)
 
     async with aiohttp.ClientSession() as session:
-        errors = []
         tasks = []
         station_pbars = {}
 
@@ -93,7 +76,7 @@ async def main(station_df, url, dir):
 
             #test station that is not needed
             if date_start != 0:
-                csv = fetch_station_data(session, url, station, dir, date_start, station_pbars[station], errors)
+                csv = fetch_station_data(session, url, station, dir, date_start, station_pbars[station])
                 tasks.append(csv)
         
         await asyncio.gather(*tasks)
