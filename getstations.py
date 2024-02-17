@@ -11,13 +11,20 @@ import shutil
 import logging
 import numpy as np
 import datetime 
+import argparse
+import warnings
+
+warnings.filterwarnings("ignore")
 
 def convert_timestamp(epoch):
     epoch = int(epoch)
     dt_object = datetime.datetime.utcfromtimestamp(epoch)
     formatted = dt_object.strftime("%m-%d-%Y %H:%M:%S")
     formatted_date_datetime = datetime.datetime.strptime(formatted, "%m-%d-%Y %H:%M:%S")
+        
     return formatted_date_datetime
+
+    
 
 # Read the data into a DataFrame
 async def fetch_station_data(session, url, station, dir, date_start, pbar):
@@ -41,7 +48,7 @@ async def fetch_station_data(session, url, station, dir, date_start, pbar):
 
                 #converting timestamps
                 df['time'] = df['time'].apply(convert_timestamp)
-
+            
                 #if the dataframe has data, this is where there are good values
                 if not df_start.index.empty: 
                     value_start = df_start.index[0]
@@ -83,7 +90,7 @@ async def fetch_station_data(session, url, station, dir, date_start, pbar):
             logging.error(f'{station} pull failed: {e}')
 
 
-async def main(station_df, url, dir):
+async def main(station_df, url, dir, model):
     taskurl = url
     logging.basicConfig(filename='logdir/stemneterror.log', encoding='utf-8', level=logging.ERROR)
 
@@ -124,6 +131,30 @@ async def main(station_df, url, dir):
 
 if __name__ == "__main__":
 
+    parser = argparse.ArgumentParser(description="This program can pull data from AL STEMNET Stations.", formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument("--model", default=None, help=
+    '''Choose a model to pull root zone soil moisture percentiles from 
+    default choice: None 
+    choices: gldas, None
+    model descriptions: 
+        Global Land Data Assimilation System - gldas 
+        Purpose: Average 20th Percentile Root Zone Soil Moisture at 20 cm depth.
+        Location: Data is in ./models/gldas/GLDAS_CLSM025_1980_2022_RZSM_20PCTL.nc
+        Filetype: netcdf
+        Author: Mohmoud Osman, John Hopkins University
+        Email: mahmoud.osman@jhu.edu
+        Temporal Resolution: daily (1-365)
+        Spatial Resolution: 12.5 km
+        Climatology: 1980-2022
+    returns: 
+        model textfiles for each STEMNET station on the server will be output to datadir 
+        along with current STEMNET station data that can be read into aquatron''', choices=[None, 'gldas'])
+    
+
+    
+    args = parser.parse_args()
+
+    model = args.model
     #url for the station metadata 
     url1 = 'https://data.alclimate.com/stemmnet/sn_meta.txt'
     response = requests.get(url1)
@@ -164,7 +195,7 @@ if __name__ == "__main__":
         os.mkdir(logdir)
 
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main(stations_df, url2, datadir))
+    loop.run_until_complete(main(stations_df, url2, datadir, model=model))
     print('\n')
     print(f'Station data stored at: {datadir}')
     print(f'If bar did not load, error log is stored at: {logdir}')
