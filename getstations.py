@@ -106,7 +106,7 @@ async def main(station_df, url, dir, model):
             # reading soil moisture in the ground
             date_start = row['install_date']
 
-            if date_start != 0:
+            if date_start > 0:
                 station_pbars[station] = tqdm(total=2, desc=f"Retrieving {station}")
         
         for index, row in station_df.iterrows():
@@ -122,7 +122,7 @@ async def main(station_df, url, dir, model):
             date_start = row['install_date']
 
             #test station that is not needed
-            if date_start != 0:
+            if date_start > 0:
                 csv = fetch_station_data(session, url, station, dir, date_start, station_pbars[station])
                 tasks.append(csv)
         
