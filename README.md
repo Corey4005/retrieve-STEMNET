@@ -7,9 +7,6 @@ This Python script retrieves high-temporal resolution (5 minute) soil moisture d
 
 Here is the University of Alabama press [release](https://www.uah.edu/news/news/uah-builds-installs-low-cost-soil-moisture-sensors-to-examine-how-flash-droughts-impact-agriculture) describing the soil moisture program. 
 
-## DEMO 
-
-[This](https://youtu.be/1K_zSj3dEaA?si=vKd9rUkqPYH7o75S) is a youtube video demonstrating the use of the program, as well as important background on the project and data. 
 ## Prerequisites
 
 Before running the script, ensure you have the following dependencies installed:
